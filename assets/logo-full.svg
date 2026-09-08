@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 640" role="img" aria-labelledby="logoTitle">
+  <title id="logoTitle">Maison Anza Parfums</title>
+  <g font-family="'Playfair Display', 'Cormorant Garamond', Georgia, serif" text-anchor="middle">
+    <!-- Monogram MA -->
+    <text x="260" y="170" font-size="150" font-weight="700" fill="#b8925a">M</text>
+    <text x="292" y="170" font-size="150" font-weight="700" fill="#b8925a">A</text>
+    <line x1="180" y1="196" x2="340" y2="196" stroke="#b8925a" stroke-width="2"/>
+
+    <!-- Wordmark -->
+    <text x="260" y="290" font-size="86" font-weight="700" letter-spacing="6" fill="#141210">MAISON</text>
+    <text x="260" y="376" font-size="86" font-weight="700" letter-spacing="6" fill="#141210">ANZA</text>
+
+    <!-- Subtitle -->
+    <text x="260" y="430" font-size="30" font-weight="400" letter-spacing="12" fill="#3a352e" font-family="'Cormorant Garamond', Georgia, serif">PARFUMS</text>
+  </g>
+</svg>
