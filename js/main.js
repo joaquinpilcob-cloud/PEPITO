@@ -51,6 +51,7 @@
       collection_arabe: "Colección Árabe", collection_disenador: "Colección Diseñador", collection_nicho: "Colección Nicho",
       gender_masculino: "Masculino", gender_unisex: "Unisex",
       view_detail: "Ver detalle", add_short: "Agregar",
+      wa_fab_label: "Escríbenos por WhatsApp",
       wa_greeting: "Hola Maison Anza Parfums, quisiera consultar por sus decants.",
       wa_order_intro: "Hola, quiero hacer este pedido:",
       wa_order_total: "Total",
@@ -99,6 +100,7 @@
       collection_arabe: "Arabian Collection", collection_disenador: "Designer Collection", collection_nicho: "Niche Collection",
       gender_masculino: "Men's", gender_unisex: "Unisex",
       view_detail: "View detail", add_short: "Add",
+      wa_fab_label: "Message us on WhatsApp",
       wa_greeting: "Hi Maison Anza Parfums, I'd like to ask about your decants.",
       wa_order_intro: "Hi, I'd like to place this order:",
       wa_order_total: "Total",
@@ -120,6 +122,11 @@
     });
     document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
       el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+      const label = t(el.getAttribute("data-i18n-title"));
+      el.setAttribute("title", label);
+      el.setAttribute("aria-label", label);
     });
     document.querySelectorAll(".lang-btn").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.langBtn === currentLang);
@@ -426,15 +433,14 @@
     window.open(whatsappLink(message), "_blank", "noopener");
   });
 
-  document.getElementById("heroWhatsapp").addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open(whatsappLink(t("wa_greeting")), "_blank", "noopener");
-  });
-  document.getElementById("footerWhatsapp").addEventListener("click", (e) => {
+  function openWhatsappWithCartOrGreeting(e) {
     e.preventDefault();
     const message = cart.length ? buildOrderMessage() : t("wa_greeting");
     window.open(whatsappLink(message), "_blank", "noopener");
-  });
+  }
+  document.getElementById("heroWhatsapp").addEventListener("click", openWhatsappWithCartOrGreeting);
+  document.getElementById("footerWhatsapp").addEventListener("click", openWhatsappWithCartOrGreeting);
+  document.getElementById("whatsappFab").addEventListener("click", openWhatsappWithCartOrGreeting);
 
   /* ============ Toast ============ */
   const toastEl = document.getElementById("toast");
