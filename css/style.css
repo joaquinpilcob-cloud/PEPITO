@@ -231,6 +231,33 @@ ul{ margin: 0; padding: 0; list-style: none; }
 }
 .about-logo{ width: 100%; max-width: 220px; height: auto; filter: drop-shadow(0 10px 30px rgba(0,0,0,.4)); }
 
+/* ===== GUIDE ===== */
+.guide{ padding: 5.5rem 1.5rem; max-width: 1120px; margin: 0 auto; }
+.guide-pyramid{
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-bottom: 3.5rem;
+}
+.guide-pyramid-card{
+  background: var(--paper-card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 1.8rem 1.6rem; text-align: center;
+}
+.guide-pyramid-num{
+  display: inline-block; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+  color: var(--gold); border: 1px solid var(--gold-light); border-radius: 50%;
+  width: 34px; height: 34px; line-height: 32px; margin-bottom: .9rem;
+}
+.guide-pyramid-card h3{ font-size: 1.15rem; margin-bottom: .5rem; }
+.guide-pyramid-card p{ color: var(--muted); font-size: .85rem; line-height: 1.6; }
+.guide-families-title{ text-align: center; font-size: 1.3rem; margin-bottom: 1.6rem; }
+.guide-families{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem;
+}
+.guide-family{
+  background: var(--paper-alt); border-radius: var(--radius-sm); padding: 1.3rem 1.4rem;
+  border-left: 3px solid var(--gold);
+}
+.guide-family h4{ font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: .4rem; }
+.guide-family p{ color: var(--muted); font-size: .82rem; line-height: 1.5; }
+
 /* ===== SHIPPING ===== */
 .shipping{ background: var(--dark); padding: 5.5rem 1.5rem; color: var(--paper); }
 .shipping-grid{
@@ -373,6 +400,7 @@ ul{ margin: 0; padding: 0; list-style: none; }
   .about-visual{ order: -1; }
   .shipping-grid{ grid-template-columns: 1fr; }
   .footer-grid{ grid-template-columns: 1fr; gap: 2rem; }
+  .guide-pyramid{ grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px){
