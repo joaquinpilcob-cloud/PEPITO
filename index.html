@@ -96,6 +96,12 @@
   </div>
 </header>
 
+<!-- ===== PROMO BANNER ===== -->
+<div class="promo-banner" id="promoBanner">
+  <p><span data-i18n="promo_banner">🎉 Lleva 3 decants y ahorra 10% · Lleva 5 y ahorra 15% — descuento automático en tu carrito</span></p>
+  <button type="button" class="promo-banner-close" id="promoBannerClose" aria-label="Cerrar">&times;</button>
+</div>
+
 <!-- ===== HERO ===== -->
 <section class="hero" id="inicio">
   <div class="hero-inner">
@@ -472,6 +478,15 @@
   </div>
 
   <div class="cart-footer">
+    <p class="cart-promo-hint" id="cartPromoHint" hidden></p>
+    <div class="cart-total-row cart-subtotal-row" id="cartSubtotalRow" hidden>
+      <span data-i18n="cart_subtotal">Subtotal</span>
+      <span id="cartSubtotal">S/ 0</span>
+    </div>
+    <div class="cart-total-row cart-discount-row" id="cartDiscountRow" hidden>
+      <span id="cartDiscountLabel">Descuento</span>
+      <span id="cartDiscountAmount">-S/ 0</span>
+    </div>
     <div class="cart-total-row">
       <span data-i18n="cart_total">Total</span>
       <strong id="cartTotal">S/ 0</strong>

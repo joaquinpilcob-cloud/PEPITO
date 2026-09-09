@@ -93,6 +93,10 @@
       cart_title: "Tu carrito",
       cart_empty: "Tu carrito está vacío. Explora el catálogo y agrega tus decants favoritos.",
       cart_total: "Total", cart_note: "El envío se coordina por WhatsApp según tu distrito en Lima.",
+      cart_subtotal: "Subtotal", cart_discount: "Descuento pack",
+      cart_promo_hint: "Agrega {n} decant(s) más y desbloquea {pct}% de descuento 🎉",
+      cart_promo_maxed: "🎉 ¡Tienes {pct}% de descuento pack aplicado!",
+      promo_banner: "🎉 Lleva 3 decants y ahorra 10% · Lleva 5 y ahorra 15% — descuento automático en tu carrito",
       cart_whatsapp_btn: "Pedir por WhatsApp", cart_clear_btn: "Vaciar carrito",
       added_toast: "Agregado al carrito",
       collection_arabe: "Colección Árabe", collection_disenador: "Colección Diseñador", collection_nicho: "Colección Nicho",
@@ -189,6 +193,10 @@
       cart_title: "Your cart",
       cart_empty: "Your cart is empty. Browse the catalog and add your favorite decants.",
       cart_total: "Total", cart_note: "Shipping is arranged over WhatsApp based on your district in Lima.",
+      cart_subtotal: "Subtotal", cart_discount: "Pack discount",
+      cart_promo_hint: "Add {n} more decant(s) to unlock {pct}% off 🎉",
+      cart_promo_maxed: "🎉 You've unlocked {pct}% off your pack!",
+      promo_banner: "🎉 Get 3 decants and save 10% · Get 5 and save 15% — automatic discount in your cart",
       cart_whatsapp_btn: "Order via WhatsApp", cart_clear_btn: "Clear cart",
       added_toast: "Added to cart",
       collection_arabe: "Arabian Collection", collection_disenador: "Designer Collection", collection_nicho: "Niche Collection",
@@ -435,19 +443,44 @@
     renderCart();
   }
 
-  function cartTotal() {
+  const PROMO_TIERS = [
+    { qty: 5, rate: 0.15 },
+    { qty: 3, rate: 0.10 },
+  ];
+
+  function cartQty() {
+    return cart.reduce((s, i) => s + i.qty, 0);
+  }
+
+  function cartSubtotal() {
     return cart.reduce((sum, item) => {
       const product = PRODUCTS.find((p) => p.id === item.id);
       return sum + (product ? product.price * item.qty : 0);
     }, 0);
   }
 
+  function discountRate(qty) {
+    const tier = PROMO_TIERS.find((tier) => qty >= tier.qty);
+    return tier ? tier.rate : 0;
+  }
+
+  function cartTotal() {
+    const subtotal = cartSubtotal();
+    return Math.round(subtotal * (1 - discountRate(cartQty())));
+  }
+
   const cartItemsEl = document.getElementById("cartItems");
   const cartCountEl = document.getElementById("cartCount");
   const cartTotalEl = document.getElementById("cartTotal");
+  const cartSubtotalRow = document.getElementById("cartSubtotalRow");
+  const cartSubtotalEl = document.getElementById("cartSubtotal");
+  const cartDiscountRow = document.getElementById("cartDiscountRow");
+  const cartDiscountLabelEl = document.getElementById("cartDiscountLabel");
+  const cartDiscountAmountEl = document.getElementById("cartDiscountAmount");
+  const cartPromoHintEl = document.getElementById("cartPromoHint");
 
   function renderCart() {
-    const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+    const totalQty = cartQty();
     cartCountEl.textContent = totalQty;
     cartCountEl.style.display = totalQty ? "flex" : "none";
 
@@ -475,7 +508,35 @@
         </div>`;
       }).join("");
     }
-    cartTotalEl.textContent = priceLabel(cartTotal());
+
+    const subtotal = cartSubtotal();
+    const rate = discountRate(totalQty);
+    const total = Math.round(subtotal * (1 - rate));
+
+    cartSubtotalRow.hidden = rate === 0;
+    cartDiscountRow.hidden = rate === 0;
+    if (rate > 0) {
+      cartSubtotalEl.textContent = priceLabel(subtotal);
+      cartDiscountLabelEl.textContent = `${t("cart_discount")} (${Math.round(rate * 100)}%)`;
+      cartDiscountAmountEl.textContent = "-" + priceLabel(subtotal - total);
+    }
+    cartTotalEl.textContent = priceLabel(total);
+
+    if (cart.length) {
+      const nextTier = [...PROMO_TIERS].reverse().find((tier) => totalQty < tier.qty);
+      if (nextTier) {
+        const missing = nextTier.qty - totalQty;
+        cartPromoHintEl.hidden = false;
+        cartPromoHintEl.textContent = t("cart_promo_hint")
+          .replace("{n}", missing)
+          .replace("{pct}", Math.round(nextTier.rate * 100));
+      } else {
+        cartPromoHintEl.hidden = false;
+        cartPromoHintEl.textContent = t("cart_promo_maxed").replace("{pct}", Math.round(rate * 100));
+      }
+    } else {
+      cartPromoHintEl.hidden = true;
+    }
   }
 
   cartItemsEl.addEventListener("click", (e) => {
@@ -522,6 +583,12 @@
       lines.push(`• ${product.name} (${product.brand}) x${item.qty} — ${priceLabel(product.price * item.qty)}`);
     });
     lines.push("");
+    const subtotal = cartSubtotal();
+    const rate = discountRate(cartQty());
+    if (rate > 0) {
+      lines.push(`${t("cart_subtotal")}: ${priceLabel(subtotal)}`);
+      lines.push(`${t("cart_discount")} (${Math.round(rate * 100)}%): -${priceLabel(subtotal - cartTotal())}`);
+    }
     lines.push(`${t("wa_order_total")}: ${priceLabel(cartTotal())}`);
     lines.push("");
     lines.push(t("wa_order_closing"));
@@ -715,6 +782,19 @@
       closeModal();
       closeCart();
     }
+  });
+
+  /* ============ Promo banner ============ */
+  const promoBanner = document.getElementById("promoBanner");
+  const PROMO_DISMISS_KEY = "maisonanza_promo_dismissed";
+  try {
+    if (sessionStorage.getItem(PROMO_DISMISS_KEY) === "1") {
+      promoBanner.classList.add("hidden");
+    }
+  } catch (e) { /* storage unavailable, ignore */ }
+  document.getElementById("promoBannerClose").addEventListener("click", () => {
+    promoBanner.classList.add("hidden");
+    try { sessionStorage.setItem(PROMO_DISMISS_KEY, "1"); } catch (e) { /* ignore */ }
   });
 
   /* ============ Footer year ============ */
