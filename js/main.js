@@ -18,6 +18,27 @@
       hero_cta_whatsapp: "Escríbenos por WhatsApp",
       trust_1: "Decants 100% originales", trust_2: "Envíos a todo Lima",
       trust_3: "Pedidos por WhatsApp", trust_4: "Fraccionado con cuidado",
+      quiz_kicker: "Encuentra tu fragancia", quiz_title: "¿No sabes cuál elegir?",
+      quiz_sub: "Responde 4 preguntas rápidas y te recomendamos el decant ideal para ti.",
+      quiz_q1: "¿Qué familia de aromas te atrae más?",
+      quiz_q1_o1_t: "Cítrica", quiz_q1_o1_d: "Fresca y vibrante",
+      quiz_q1_o2_t: "Floral", quiz_q1_o2_d: "Elegante y romántica",
+      quiz_q1_o3_t: "Amaderada", quiz_q1_o3_d: "Cálida y envolvente",
+      quiz_q1_o4_t: "Oriental / Ambarada", quiz_q1_o4_d: "Intensa y sensual",
+      quiz_q1_o5_t: "Gourmand", quiz_q1_o5_d: "Dulce y adictiva",
+      quiz_q1_o6_t: "Acuática", quiz_q1_o6_d: "Limpia y ligera",
+      quiz_q2: "¿Para qué ocasión la usarás más?",
+      quiz_q2_o1_t: "Uso diario", quiz_q2_o1_d: "Oficina, salidas casuales",
+      quiz_q2_o2_t: "Noches y eventos", quiz_q2_o2_d: "Citas, ocasiones especiales",
+      quiz_q2_o3_t: "Playa y verano", quiz_q2_o3_d: "Días soleados, uso diurno",
+      quiz_q3: "¿Qué intensidad prefieres?",
+      quiz_q3_o1_t: "Ligera y fresca", quiz_q3_o1_d: "Se siente de cerca",
+      quiz_q3_o2_t: "Equilibrada", quiz_q3_o2_d: "Presencia moderada",
+      quiz_q3_o3_t: "Intensa", quiz_q3_o3_d: "Con mucho carácter",
+      quiz_q4: "¿Cuál es tu presupuesto por decant?",
+      quiz_result_kicker: "Tu recomendación",
+      quiz_result_note: "Basado en tus respuestas. Si quieres otra opción, vuelve a responder.",
+      quiz_restart: "Volver a responder", quiz_back: "Atrás",
       catalog_kicker: "Catálogo", catalog_title: "Todas las fragancias",
       catalog_sub: "15 fragancias seleccionadas, disponibles en decant de 5ml.",
       filter_all: "Todos", filter_arabe: "Colección Árabe",
@@ -93,6 +114,27 @@
       hero_cta_whatsapp: "Message us on WhatsApp",
       trust_1: "100% original decants", trust_2: "Delivery all over Lima",
       trust_3: "Orders via WhatsApp", trust_4: "Carefully hand-poured",
+      quiz_kicker: "Find your fragrance", quiz_title: "Not sure which one to pick?",
+      quiz_sub: "Answer 4 quick questions and we'll recommend the perfect decant for you.",
+      quiz_q1: "Which scent family draws you in most?",
+      quiz_q1_o1_t: "Citrus", quiz_q1_o1_d: "Fresh and vibrant",
+      quiz_q1_o2_t: "Floral", quiz_q1_o2_d: "Elegant and romantic",
+      quiz_q1_o3_t: "Woody", quiz_q1_o3_d: "Warm and enveloping",
+      quiz_q1_o4_t: "Oriental / Amber", quiz_q1_o4_d: "Intense and sensual",
+      quiz_q1_o5_t: "Gourmand", quiz_q1_o5_d: "Sweet and addictive",
+      quiz_q1_o6_t: "Aquatic", quiz_q1_o6_d: "Clean and light",
+      quiz_q2: "What occasion will you wear it for most?",
+      quiz_q2_o1_t: "Everyday wear", quiz_q2_o1_d: "Office, casual outings",
+      quiz_q2_o2_t: "Nights & events", quiz_q2_o2_d: "Dates, special occasions",
+      quiz_q2_o3_t: "Beach & summer", quiz_q2_o3_d: "Sunny days, daytime wear",
+      quiz_q3: "How intense do you like it?",
+      quiz_q3_o1_t: "Light and fresh", quiz_q3_o1_d: "Stays close to skin",
+      quiz_q3_o2_t: "Balanced", quiz_q3_o2_d: "Moderate presence",
+      quiz_q3_o3_t: "Intense", quiz_q3_o3_d: "Full of character",
+      quiz_q4: "What's your budget per decant?",
+      quiz_result_kicker: "Your recommendation",
+      quiz_result_note: "Based on your answers. Want another option? Try again.",
+      quiz_restart: "Take the quiz again", quiz_back: "Back",
       catalog_kicker: "Catalog", catalog_title: "All fragrances",
       catalog_sub: "15 selected fragrances, available as 5ml decants.",
       filter_all: "All", filter_arabe: "Arabian Collection",
@@ -185,6 +227,7 @@
     });
     renderProducts();
     renderCart();
+    renderQuizResult();
   }
 
   /* ============ Product data helpers ============ */
@@ -541,6 +584,119 @@
       btn.setAttribute("aria-expanded", String(!isOpen));
       answer.style.maxHeight = isOpen ? "" : answer.scrollHeight + "px";
     });
+  });
+
+  /* ============ Fragrance quiz ============ */
+  const QUIZ_STEPS = 4;
+  let quizStep = 1;
+  let quizAnswers = {};
+  let quizResultProduct = null;
+
+  const quizBox = document.getElementById("quizBox");
+  const quizProgressBar = document.getElementById("quizProgressBar");
+  const quizBackBtn = document.getElementById("quizBack");
+  const quizResultStep = document.getElementById("quizResultStep");
+
+  function priceBucket(price) {
+    if (price <= 30) return "low";
+    if (price <= 50) return "mid";
+    return "high";
+  }
+
+  function scoreProduct(p, answers) {
+    let score = 0;
+    if (p.families && p.families.includes(answers.family)) score += 4;
+    if (p.occasions && p.occasions.includes(answers.occasion)) score += 2;
+    const intensityDiff = Math.abs((p.intensity || 2) - Number(answers.intensity));
+    score += intensityDiff === 0 ? 2 : intensityDiff === 1 ? 1 : 0;
+    if (priceBucket(p.price) === answers.budget) score += 1;
+    return score;
+  }
+
+  function computeRecommendation(answers) {
+    const available = PRODUCTS.filter((p) => p.stock !== false);
+    let best = available[0];
+    let bestScore = -1;
+    available.forEach((p) => {
+      const s = scoreProduct(p, answers);
+      if (s > bestScore) {
+        bestScore = s;
+        best = p;
+      }
+    });
+    return best;
+  }
+
+  function showQuizStep(step) {
+    quizBox.querySelectorAll(".quiz-step").forEach((el) => {
+      el.hidden = el.dataset.step !== String(step);
+    });
+    quizResultStep.hidden = step !== "result";
+    const pct = step === "result" ? 100 : ((step - 1) / QUIZ_STEPS) * 100 + 25;
+    quizProgressBar.style.width = Math.min(pct, 100) + "%";
+    quizBackBtn.hidden = step === 1 || step === "result";
+  }
+
+  function renderQuizResult() {
+    if (!quizResultProduct) return;
+    const p = quizResultProduct;
+    const d = pd(p);
+    document.getElementById("quizResultCard").innerHTML = `
+      <div class="quiz-result-card">
+        <span class="quiz-result-collection">${collectionLabel(p.collection)} · N.${p.num}</span>
+        <h3 class="quiz-result-name">${p.name}</h3>
+        <p class="quiz-result-brand">${p.brand}</p>
+        <p class="quiz-result-desc">${d.desc}</p>
+        <div class="quiz-result-price">${priceLabel(p.price)} <span>${t("decant_5ml")}</span></div>
+        <div class="quiz-result-actions">
+          <button type="button" class="btn btn-gold" id="quizViewDetail">${t("view_detail")}</button>
+          <button type="button" class="btn btn-outline-dark" id="quizAddCart">${t("add_to_cart")}</button>
+        </div>
+      </div>
+      <p class="quiz-result-note">${t("quiz_result_note")}</p>
+    `;
+    document.getElementById("quizViewDetail").addEventListener("click", () => openModal(p.id));
+    document.getElementById("quizAddCart").addEventListener("click", () => {
+      addToCart(p.id, 1);
+      showToast(t("added_toast"));
+    });
+  }
+
+  quizBox.querySelectorAll(".quiz-options").forEach((group) => {
+    group.addEventListener("click", (e) => {
+      const btn = e.target.closest(".quiz-option");
+      if (!btn) return;
+      const question = group.dataset.question;
+      group.querySelectorAll(".quiz-option").forEach((o) => o.classList.remove("selected"));
+      btn.classList.add("selected");
+      quizAnswers[question] = btn.dataset.value;
+
+      setTimeout(() => {
+        if (quizStep < QUIZ_STEPS) {
+          quizStep += 1;
+          showQuizStep(quizStep);
+        } else {
+          quizResultProduct = computeRecommendation(quizAnswers);
+          renderQuizResult();
+          showQuizStep("result");
+        }
+      }, 220);
+    });
+  });
+
+  quizBackBtn.addEventListener("click", () => {
+    if (quizStep > 1) {
+      quizStep -= 1;
+      showQuizStep(quizStep);
+    }
+  });
+
+  document.getElementById("quizRestart").addEventListener("click", () => {
+    quizAnswers = {};
+    quizResultProduct = null;
+    quizStep = 1;
+    quizBox.querySelectorAll(".quiz-option.selected").forEach((o) => o.classList.remove("selected"));
+    showQuizStep(1);
   });
 
   /* ============ Header scroll state ============ */

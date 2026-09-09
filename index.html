@@ -130,6 +130,68 @@
   </div>
 </section>
 
+<!-- ===== QUIZ ===== -->
+<section class="quiz" id="quiz">
+  <div class="section-head">
+    <p class="section-kicker" data-i18n="quiz_kicker">Encuentra tu fragancia</p>
+    <h2 class="section-title" data-i18n="quiz_title">¿No sabes cuál elegir?</h2>
+    <p class="section-sub" data-i18n="quiz_sub">Responde 4 preguntas rápidas y te recomendamos el decant ideal para ti.</p>
+  </div>
+
+  <div class="quiz-box" id="quizBox">
+    <div class="quiz-progress"><div class="quiz-progress-bar" id="quizProgressBar"></div></div>
+
+    <div class="quiz-step" data-step="1">
+      <h3 class="quiz-question" data-i18n="quiz_q1">¿Qué familia de aromas te atrae más?</h3>
+      <div class="quiz-options" data-question="family">
+        <button type="button" class="quiz-option" data-value="citrica"><strong data-i18n="quiz_q1_o1_t">Cítrica</strong><span data-i18n="quiz_q1_o1_d">Fresca y vibrante</span></button>
+        <button type="button" class="quiz-option" data-value="floral"><strong data-i18n="quiz_q1_o2_t">Floral</strong><span data-i18n="quiz_q1_o2_d">Elegante y romántica</span></button>
+        <button type="button" class="quiz-option" data-value="amaderada"><strong data-i18n="quiz_q1_o3_t">Amaderada</strong><span data-i18n="quiz_q1_o3_d">Cálida y envolvente</span></button>
+        <button type="button" class="quiz-option" data-value="oriental"><strong data-i18n="quiz_q1_o4_t">Oriental / Ambarada</strong><span data-i18n="quiz_q1_o4_d">Intensa y sensual</span></button>
+        <button type="button" class="quiz-option" data-value="gourmand"><strong data-i18n="quiz_q1_o5_t">Gourmand</strong><span data-i18n="quiz_q1_o5_d">Dulce y adictiva</span></button>
+        <button type="button" class="quiz-option" data-value="acuatica"><strong data-i18n="quiz_q1_o6_t">Acuática</strong><span data-i18n="quiz_q1_o6_d">Limpia y ligera</span></button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="2" hidden>
+      <h3 class="quiz-question" data-i18n="quiz_q2">¿Para qué ocasión la usarás más?</h3>
+      <div class="quiz-options" data-question="occasion">
+        <button type="button" class="quiz-option" data-value="dia"><strong data-i18n="quiz_q2_o1_t">Uso diario</strong><span data-i18n="quiz_q2_o1_d">Oficina, salidas casuales</span></button>
+        <button type="button" class="quiz-option" data-value="noche"><strong data-i18n="quiz_q2_o2_t">Noches y eventos</strong><span data-i18n="quiz_q2_o2_d">Citas, ocasiones especiales</span></button>
+        <button type="button" class="quiz-option" data-value="playa"><strong data-i18n="quiz_q2_o3_t">Playa y verano</strong><span data-i18n="quiz_q2_o3_d">Días soleados, uso diurno</span></button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="3" hidden>
+      <h3 class="quiz-question" data-i18n="quiz_q3">¿Qué intensidad prefieres?</h3>
+      <div class="quiz-options" data-question="intensity">
+        <button type="button" class="quiz-option" data-value="1"><strong data-i18n="quiz_q3_o1_t">Ligera y fresca</strong><span data-i18n="quiz_q3_o1_d">Se siente de cerca</span></button>
+        <button type="button" class="quiz-option" data-value="2"><strong data-i18n="quiz_q3_o2_t">Equilibrada</strong><span data-i18n="quiz_q3_o2_d">Presencia moderada</span></button>
+        <button type="button" class="quiz-option" data-value="3"><strong data-i18n="quiz_q3_o3_t">Intensa</strong><span data-i18n="quiz_q3_o3_d">Con mucho carácter</span></button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="4" hidden>
+      <h3 class="quiz-question" data-i18n="quiz_q4">¿Cuál es tu presupuesto por decant?</h3>
+      <div class="quiz-options" data-question="budget">
+        <button type="button" class="quiz-option" data-value="low"><strong>S/ 25 – 30</strong></button>
+        <button type="button" class="quiz-option" data-value="mid"><strong>S/ 30 – 50</strong></button>
+        <button type="button" class="quiz-option" data-value="high"><strong>S/ 50+</strong></button>
+      </div>
+    </div>
+
+    <div class="quiz-result" data-step="result" hidden id="quizResultStep">
+      <p class="section-kicker" data-i18n="quiz_result_kicker">Tu recomendación</p>
+      <div id="quizResultCard"></div>
+      <button type="button" class="btn btn-text" id="quizRestart" data-i18n="quiz_restart">Volver a responder</button>
+    </div>
+
+    <div class="quiz-nav">
+      <button type="button" class="btn btn-text" id="quizBack" data-i18n="quiz_back" hidden>Atrás</button>
+    </div>
+  </div>
+</section>
+
 <!-- ===== CATALOGO ===== -->
 <section class="catalog" id="catalogo">
   <div class="section-head">
