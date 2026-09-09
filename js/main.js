@@ -10,7 +10,7 @@
   const STRINGS = {
     es: {
       nav_home: "Inicio", nav_catalog: "Catálogo", nav_about: "Nosotros",
-      nav_shipping: "Envíos", nav_contact: "Contacto",
+      nav_shipping: "Envíos", nav_faq: "Preguntas", nav_contact: "Contacto",
       hero_kicker: "Colección exclusiva · Decants 5ml",
       hero_title: "Exclusividad que se huele,<br>no que se paga",
       hero_sub: "Fragmentos originales de las casas árabes, de diseñador y de nicho más deseadas — en formato decant de 5ml, a un precio real.",
@@ -34,6 +34,19 @@
       shipping_2_text: "Los pedidos se despachan en 24-48 horas útiles según disponibilidad y zona de entrega.",
       shipping_3_title: "Formas de pago",
       shipping_3_text: "Yape, Plin, transferencia o efectivo contra entrega. Coordinamos el detalle al confirmar tu pedido por WhatsApp.",
+      faq_kicker: "Preguntas frecuentes", faq_title: "Todo lo que quieras saber",
+      faq_q1: "¿Qué es exactamente un decant?",
+      faq_a1: "Es una fracción de 5ml de una fragancia, extraída directamente del frasco original y envasada en un atomizador de calidad. Te permite probar, viajar o disfrutar un perfume de lujo sin pagar por el frasco completo.",
+      faq_q2: "¿Los decants son 100% originales?",
+      faq_a2: "Sí. Cada decant se extrae directamente del frasco original de la marca, sin diluir ni mezclar. No trabajamos con clones ni imitaciones.",
+      faq_q3: "¿A qué zonas hacen envíos?",
+      faq_a3: "Por ahora hacemos delivery a todos los distritos de Lima. Escríbenos por WhatsApp para coordinar el punto y horario de entrega.",
+      faq_q4: "¿Cómo elijo el decant correcto para mí?",
+      faq_a4: "Cada ficha de producto incluye sus notas de salida, corazón y fondo, además de para qué ocasión es ideal. Si aún tienes dudas, escríbenos por WhatsApp y te asesoramos según tus gustos.",
+      faq_q5: "¿Puedo comprar el frasco completo?",
+      faq_a5: "En algunos casos sí tenemos disponibilidad de frasco completo. Consúltanos por WhatsApp o Instagram con el nombre de la fragancia que te interesa.",
+      faq_q6: "¿Cómo hago mi pedido?",
+      faq_a6: "Agrega tus decants favoritos al carrito y presiona \"Pedir por WhatsApp\": se genera automáticamente un mensaje con tu pedido y el total, listo para enviarnos.",
       footer_cta_title: "¿Lista tu fragancia ideal?",
       footer_cta_sub: "Escríbenos por WhatsApp o Instagram para separar tu decant o consultar disponibilidad de frasco completo.",
       footer_cta_btn: "Pedir por WhatsApp",
@@ -59,7 +72,7 @@
     },
     en: {
       nav_home: "Home", nav_catalog: "Catalog", nav_about: "About",
-      nav_shipping: "Shipping", nav_contact: "Contact",
+      nav_shipping: "Shipping", nav_faq: "FAQ", nav_contact: "Contact",
       hero_kicker: "Exclusive collection · 5ml decants",
       hero_title: "Exclusivity you can smell,<br>not one you overpay for",
       hero_sub: "Original fragments from the most sought-after Arabian, designer and niche houses — in 5ml decant format, at a real price.",
@@ -83,6 +96,19 @@
       shipping_2_text: "Orders are dispatched within 24-48 business hours depending on availability and delivery area.",
       shipping_3_title: "Payment methods",
       shipping_3_text: "Yape, Plin, bank transfer or cash on delivery. We confirm the details with you over WhatsApp.",
+      faq_kicker: "Frequently asked questions", faq_title: "Everything you want to know",
+      faq_q1: "What exactly is a decant?",
+      faq_a1: "It's a 5ml portion of a fragrance, drawn directly from the original bottle and filled into a quality atomizer. It lets you try, travel with, or enjoy a luxury perfume without paying for the full bottle.",
+      faq_q2: "Are the decants 100% original?",
+      faq_a2: "Yes. Every decant is drawn directly from the brand's original bottle, never diluted or mixed. We don't work with clones or imitations.",
+      faq_q3: "What areas do you deliver to?",
+      faq_a3: "Right now we deliver to every district in Lima. Message us on WhatsApp to coordinate the drop-off point and time.",
+      faq_q4: "How do I choose the right decant for me?",
+      faq_a4: "Every product card includes its top, heart and base notes, plus what occasion it's best for. Still unsure? Message us on WhatsApp and we'll help you find the right one.",
+      faq_q5: "Can I buy the full bottle?",
+      faq_a5: "In some cases we do have full bottles available. Ask us on WhatsApp or Instagram with the fragrance name you're interested in.",
+      faq_q6: "How do I place an order?",
+      faq_a6: "Add your favorite decants to the cart and tap \"Order via WhatsApp\": a message with your order and total is generated automatically, ready to send us.",
       footer_cta_title: "Found your next signature scent?",
       footer_cta_sub: "Message us on WhatsApp or Instagram to reserve your decant or ask about full-bottle availability.",
       footer_cta_btn: "Order via WhatsApp",
@@ -458,6 +484,27 @@
       currentLang = btn.dataset.langBtn;
       localStorage.setItem(LANG_KEY, currentLang);
       applyI18n();
+    });
+  });
+
+  /* ============ FAQ accordion ============ */
+  document.querySelectorAll(".faq-question").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".faq-item");
+      const answer = item.querySelector(".faq-answer");
+      const isOpen = item.classList.contains("open");
+
+      document.querySelectorAll(".faq-item.open").forEach((openItem) => {
+        if (openItem !== item) {
+          openItem.classList.remove("open");
+          openItem.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+          openItem.querySelector(".faq-answer").style.maxHeight = "";
+        }
+      });
+
+      item.classList.toggle("open", !isOpen);
+      btn.setAttribute("aria-expanded", String(!isOpen));
+      answer.style.maxHeight = isOpen ? "" : answer.scrollHeight + "px";
     });
   });
 

@@ -244,6 +244,24 @@ ul{ margin: 0; padding: 0; list-style: none; }
 .shipping-card h3{ color: var(--paper); font-size: 1.1rem; margin-bottom: .6rem; }
 .shipping-card p{ color: rgba(250,248,244,.65); font-size: .88rem; }
 
+/* ===== FAQ ===== */
+.faq{ padding: 5.5rem 1.5rem; max-width: 780px; margin: 0 auto; }
+.faq-list{ display: flex; flex-direction: column; gap: .8rem; }
+.faq-item{ border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-card); overflow: hidden; }
+.faq-question{
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  background: none; border: none; padding: 1.2rem 1.4rem; text-align: left;
+  font-family: var(--font-body); font-size: .96rem; font-weight: 500; color: var(--ink);
+}
+.faq-chevron{ flex-shrink: 0; color: var(--gold-dark); transition: transform .22s ease; }
+.faq-question[aria-expanded="true"] .faq-chevron{ transform: rotate(180deg); }
+.faq-answer{
+  max-height: 0; overflow: hidden; transition: max-height .28s ease, padding .28s ease;
+  padding: 0 1.4rem;
+}
+.faq-item.open .faq-answer{ padding: 0 1.4rem 1.2rem; }
+.faq-answer p{ color: var(--muted); font-size: .88rem; line-height: 1.6; }
+
 /* ===== FOOTER ===== */
 .site-footer{ background: var(--dark-alt); color: var(--paper); }
 .footer-cta{ text-align: center; padding: 4.5rem 1.5rem 3.5rem; border-bottom: 1px solid rgba(250,248,244,.1); }
