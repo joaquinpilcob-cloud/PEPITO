@@ -10,6 +10,7 @@ const PRODUCTS = [
     brand: "Lattafa",
     name: "Khamrah Qahwa",
     price: 25,
+    stock: true,
     es: {
       desc: "Un abrazo cálido de café y especias orientales sobre un corazón de praliné y frutas confitadas, con un fondo dulce y envolvente que recuerda a un souk al atardecer.",
       salida: "Canela, Cardamomo, Jengibre",
@@ -33,6 +34,7 @@ const PRODUCTS = [
     brand: "Bharara",
     name: "Bharara King",
     price: 30,
+    stock: true,
     es: {
       desc: "Una salida cítrica vibrante que da paso a un corazón afrutado tipo tutti frutti, cerrando con un fondo ambarado y almizclado de gran presencia.",
       salida: "Naranja, Bergamota, Limón",
@@ -56,6 +58,7 @@ const PRODUCTS = [
     brand: "Armaf",
     name: "Odyssey Mega",
     price: 30,
+    stock: true,
     es: {
       desc: "Fresco y magnético, mezcla una salida cítrico-mentolada con un corazón afrutado-herbal y un fondo amaderado de larga duración.",
       salida: "Naranja, Limón, Bergamota, Jengibre, Menta",
@@ -79,6 +82,7 @@ const PRODUCTS = [
     brand: "Rasasi",
     name: "Hawas Malibu",
     price: 30,
+    stock: true,
     es: {
       desc: "La versión costera del icónico Hawas: una explosión cítrico-tropical que se equilibra con un corazón floral-ambarado y una base cálida.",
       salida: "Piña, Naranja, Toronja",
@@ -102,6 +106,7 @@ const PRODUCTS = [
     brand: "Jean Paul Gaultier",
     name: "Le Beau Le Parfum",
     price: 45,
+    stock: true,
     es: {
       desc: "Una salida frutal-especiada que da paso a un corazón de coco y madera, cerrando en un fondo amaderado-ambarado envolvente.",
       salida: "Piña, Iris, Jengibre, Ciprés",
@@ -125,6 +130,7 @@ const PRODUCTS = [
     brand: "Emporio Armani",
     name: "Stronger With You Intensely",
     price: 40,
+    stock: true,
     es: {
       desc: "Un gourmand especiado y adictivo, con un corazón de tofe y canela sobre un fondo cálido de vainilla y gamuza.",
       salida: "Pimienta rosa, Enebro, Violeta",
@@ -148,6 +154,7 @@ const PRODUCTS = [
     brand: "Givenchy (Gentleman EDP Réserve Privée)",
     name: "Réserve Privée",
     price: 45,
+    stock: true,
     es: {
       desc: "Elegancia francesa con acorde de whisky: una apertura cítrica ligera que da paso a un corazón polvoso de iris y castaña sobre un fondo licoroso.",
       salida: "Bergamota",
@@ -171,6 +178,7 @@ const PRODUCTS = [
     brand: "Jean Paul Gaultier",
     name: "Le Male Elixir",
     price: 35,
+    stock: true,
     es: {
       desc: "La reinterpretación densa y oscura del clásico: gourmand, amielada y con una proyección enorme.",
       salida: "Lavanda, Menta",
@@ -194,6 +202,7 @@ const PRODUCTS = [
     brand: "Versace",
     name: "Dylan Blue",
     price: 35,
+    stock: true,
     es: {
       desc: "Fresco, versátil y con un carácter amaderado-acuático que se ha vuelto un básico contemporáneo.",
       salida: "Bergamota de Calabria, Notas acuáticas, Toronja, Hojas de higuera",
@@ -217,6 +226,7 @@ const PRODUCTS = [
     brand: "Chanel",
     name: "Bleu de Chanel",
     price: 55,
+    stock: true,
     es: {
       desc: "En Eau de Parfum, más denso y especiado que la versión EDT: el estándar de la elegancia masculina moderna.",
       salida: "Toronja, Limón, Menta, Bergamota, Pimienta rosa, Cilantro",
@@ -240,6 +250,7 @@ const PRODUCTS = [
     brand: "Yves Saint Laurent",
     name: "Myslf",
     price: 45,
+    stock: true,
     es: {
       desc: "Fresco-floral con carácter, una composición minimalista y moderna dentro de la línea YSL.",
       salida: "Bergamota de Calabria, Bergamota",
@@ -263,6 +274,7 @@ const PRODUCTS = [
     brand: "Dior",
     name: "Sauvage Parfum",
     price: 40,
+    stock: true,
     es: {
       desc: "La versión más suave y ambarada de Sauvage, con un fondo dulce que suaviza el carácter fresco-especiado clásico.",
       salida: "Lavanda, Bergamota de Calabria",
@@ -286,6 +298,7 @@ const PRODUCTS = [
     brand: "Paco Rabanne",
     name: "Invictus Parfum",
     price: 45,
+    stock: true,
     es: {
       desc: "Más intenso y amaderado que el EDT original, conservando el carácter marino-limpio con más cuerpo.",
       salida: "Notas marinas, Lavanda, Pimienta rosa",
@@ -309,6 +322,7 @@ const PRODUCTS = [
     brand: "Xerjoff",
     name: "Erba Pura",
     price: 70,
+    stock: true,
     es: {
       desc: "Una cesta de frutas mediterráneas y cítricos sicilianos de lujo: dulce, jugosa y radiante, sin caer nunca en lo empalagoso.",
       salida: "Naranja siciliana, Bergamota de Calabria, Limón siciliano",
@@ -332,6 +346,7 @@ const PRODUCTS = [
     brand: "Lorenzo Pazzaglia",
     name: "Summer Hammer",
     price: 85,
+    stock: true,
     es: {
       desc: "Una fragancia de culto para quienes buscan algo fuera de lo común: una piña colada tropical con un corazón floral-marino y fondo cremoso de sándalo.",
       salida: "Mango, Piña, Coco, Bergamota, Ron blanco",

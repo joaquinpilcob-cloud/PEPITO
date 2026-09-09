@@ -68,6 +68,7 @@
       footer_rights: "Todos los derechos reservados.",
       note_top: "Salida", note_heart: "Corazón", note_base: "Fondo",
       ideal_for: "Ideal para:", decant_5ml: "Decant 5ml", add_to_cart: "Agregar al carrito",
+      out_of_stock: "Agotado",
       cart_title: "Tu carrito",
       cart_empty: "Tu carrito está vacío. Explora el catálogo y agrega tus decants favoritos.",
       cart_total: "Total", cart_note: "El envío se coordina por WhatsApp según tu distrito en Lima.",
@@ -142,6 +143,7 @@
       footer_rights: "All rights reserved.",
       note_top: "Top notes", note_heart: "Heart notes", note_base: "Base notes",
       ideal_for: "Best for:", decant_5ml: "5ml decant", add_to_cart: "Add to cart",
+      out_of_stock: "Sold out",
       cart_title: "Your cart",
       cart_empty: "Your cart is empty. Browse the catalog and add your favorite decants.",
       cart_total: "Total", cart_note: "Shipping is arranged over WhatsApp based on your district in Lima.",
@@ -242,8 +244,9 @@
 
     grid.innerHTML = filtered.map((p) => {
       const d = pd(p);
+      const inStock = p.stock !== false;
       return `
-      <article class="product-card" data-id="${p.id}">
+      <article class="product-card${inStock ? "" : " out-of-stock"}" data-id="${p.id}">
         <div class="card-top">
           <span class="card-collection">${collectionLabel(p.collection)}</span>
           <span class="card-num">N.${p.num}</span>
@@ -256,12 +259,13 @@
         <div class="card-tags">
           <span class="tag">${genderLabel(p.gender)}</span>
           <span class="tag">${t("decant_5ml")}</span>
+          ${inStock ? "" : `<span class="tag tag-stock">${t("out_of_stock")}</span>`}
         </div>
         <div class="card-bottom">
           <div class="card-price">${priceLabel(p.price)}<span>${t("decant_5ml")}</span></div>
           <div class="card-actions">
             <button type="button" class="icon-round" data-action="detail" data-id="${p.id}" aria-label="${t('view_detail')}" title="${t('view_detail')}">${iconEye()}</button>
-            <button type="button" class="icon-round" data-action="quick-add" data-id="${p.id}" aria-label="${t('add_short')}" title="${t('add_short')}">${iconCart()}</button>
+            <button type="button" class="icon-round" data-action="quick-add" data-id="${p.id}" aria-label="${t('add_short')}" title="${t('add_short')}" ${inStock ? "" : "disabled"}>${iconCart()}</button>
           </div>
         </div>
       </article>`;
@@ -275,7 +279,7 @@
       const id = btn.dataset.id;
       if (btn.dataset.action === "detail") {
         openModal(id);
-      } else if (btn.dataset.action === "quick-add") {
+      } else if (btn.dataset.action === "quick-add" && !btn.disabled) {
         addToCart(id, 1);
         showToast(t("added_toast"));
       }
@@ -317,6 +321,7 @@
   function fillModal() {
     const p = modalProduct;
     const d = pd(p);
+    const inStock = p.stock !== false;
     document.getElementById("modalCollection").textContent = collectionLabel(p.collection) + " · " + genderLabel(p.gender);
     document.getElementById("modalNum").textContent = "N." + p.num;
     document.getElementById("modalTitle").textContent = p.name;
@@ -328,6 +333,12 @@
     document.getElementById("modalIdeal").textContent = d.idealPara;
     document.getElementById("modalPrice").textContent = priceLabel(p.price);
     modalQtyEl.textContent = modalQty;
+
+    const addBtn = document.getElementById("modalAddCart");
+    addBtn.disabled = !inStock;
+    addBtn.textContent = inStock ? t("add_to_cart") : t("out_of_stock");
+    document.getElementById("modalQtyMinus").disabled = !inStock;
+    document.getElementById("modalQtyPlus").disabled = !inStock;
   }
 
   function closeModal() {
@@ -347,7 +358,7 @@
     modalQtyEl.textContent = modalQty;
   });
   document.getElementById("modalAddCart").addEventListener("click", () => {
-    if (!modalProduct) return;
+    if (!modalProduct || modalProduct.stock === false) return;
     addToCart(modalProduct.id, modalQty);
     showToast(t("added_toast"));
     closeModal();
