@@ -609,22 +609,18 @@
     if (p.occasions && p.occasions.includes(answers.occasion)) score += 2;
     const intensityDiff = Math.abs((p.intensity || 2) - Number(answers.intensity));
     score += intensityDiff === 0 ? 2 : intensityDiff === 1 ? 1 : 0;
-    if (priceBucket(p.price) === answers.budget) score += 1;
+    if (priceBucket(p.price) === answers.budget) score += 3;
     return score;
   }
 
   function computeRecommendation(answers) {
     const available = PRODUCTS.filter((p) => p.stock !== false);
-    let best = available[0];
-    let bestScore = -1;
-    available.forEach((p) => {
-      const s = scoreProduct(p, answers);
-      if (s > bestScore) {
-        bestScore = s;
-        best = p;
-      }
-    });
-    return best;
+    const scored = available.map((p) => ({ p, score: scoreProduct(p, answers) }));
+    const maxScore = Math.max(...scored.map((s) => s.score));
+    const topMatches = scored.filter((s) => s.score === maxScore);
+    // Among equally-scored options, prefer the one that actually matches the stated budget.
+    const budgetMatch = topMatches.find((s) => priceBucket(s.p.price) === answers.budget);
+    return (budgetMatch || topMatches[0]).p;
   }
 
   function showQuizStep(step) {
